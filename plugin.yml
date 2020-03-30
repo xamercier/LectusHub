@@ -1,0 +1,7 @@
+name: LectusHub
+version: 1.0
+authors: [xamercier, com002]
+main: net.lectusHUB.MainLectusHub
+depend: [LectusAPI]
+commands:
+    build:
