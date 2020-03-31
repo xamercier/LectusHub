@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import net.lectusAPI.MainLectusApi;
 import net.lectusAPI.grade.Rank;
 import net.lectusAPI.utils.ScoreboardSign;
 import net.lectusAPI.utils.TeamUtils;
@@ -96,6 +97,7 @@ public class MainLectusHub extends JavaPlugin {
 				SignThread.signReload();
 			}
 		}, 0, 40);
+		MainLectusApi.getInstance().getSql().setState(this.getServer().getPort()+ "", "online");
 	}
 
 	public void startActionBarTask() {
