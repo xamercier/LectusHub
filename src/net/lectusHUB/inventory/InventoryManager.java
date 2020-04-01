@@ -34,7 +34,7 @@ public class InventoryManager {
 		this.staffMenu = new LectusItem(Material.WATCH, ChatColor.GRAY + "Menu du staff");
 		this.friendsGroupsMenu = new LectusItem(Material.RAW_FISH, ChatColor.GOLD + "Amis & groupes (Prochainement)", 1, (short) 2);
 	}
-	
+
 	public void registerInvs() {
 		new MainMenu();
 		new HubMenu();

@@ -39,11 +39,18 @@ public class HubMenu extends LectusInventory {
 			for (String serv : Servers) {
 				LectusItem item = hub.getGameItem();
 				String state = MainLectusApi.getInstance().getSql().getState(Integer.parseInt(serv));
-					item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
-					item.setLore(ChatColor.RED + "Clique pour rejoindre ce Hub!");
-					setItem(position, item);
-					position++;
-					settedGames++;
+				item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
+
+				if (state.equalsIgnoreCase("BOOTING")) {
+					item.setLore(ChatColor.RED + "Ce Hub est en cour de redemarrage!");
+				} else {
+					item.setLore(ChatColor.RED + "Joueurs: "
+							+ MainLectusApi.getInstance().getSql().getPlayers(Integer.parseInt(serv)) + "/20");
+				}
+
+				setItem(position, item);
+				position++;
+				settedGames++;
 			}
 		}
 	}
@@ -53,7 +60,8 @@ public class HubMenu extends LectusInventory {
 		if (!item.getData().getItemType().equals(Material.AIR)) {
 			for (GameManager game : GameManager.values()) {
 				if (item.getItemMeta().getDisplayName().contains(game.getGamePrefix())) {
-					ServerUtils.sendPlayerToServer(player, item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
+					ServerUtils.sendPlayerToServer(player,
+							item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
 				}
 			}
 		}
