@@ -2,6 +2,7 @@ package net.lectusHUB.inventory.menus;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public class HubMenu extends LectusInventory {
 				item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
 
 				if (state.equalsIgnoreCase("BOOTING")) {
-					item.setLore(ChatColor.RED + "Ce Hub est en cour de redemarrage!");
+					item.setLore(ChatColor.RED + "Ce Hub est en cour de demarrage!");
 				} else {
 					item.setLore(ChatColor.RED + "Joueurs: "
 							+ MainLectusApi.getInstance().getSql().getPlayers(Integer.parseInt(serv)) + "/20");
@@ -60,8 +61,23 @@ public class HubMenu extends LectusInventory {
 		if (!item.getData().getItemType().equals(Material.AIR)) {
 			for (GameManager game : GameManager.values()) {
 				if (item.getItemMeta().getDisplayName().contains(game.getGamePrefix())) {
-					ServerUtils.sendPlayerToServer(player,
-							item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
+
+					int srvPort;
+					String srvName1 = item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", "");
+					String[] srvsplit;
+					srvsplit = srvName1.split("_");
+					srvPort = Integer.parseInt(srvsplit[1]);
+
+					if (item.getItemMeta().getDisplayName().contains(Bukkit.getServer().getPort() + "")) {
+						player.sendMessage(ChatColor.RED + "Erreur: Vous etes deja connecter a ce Hub");
+						return;
+					} else if (MainLectusApi.getInstance().getSql().getPlayers(srvPort) >= 20) {
+						player.sendMessage(ChatColor.RED + "Erreur: Ce Hub est deja plein");
+					} else {
+
+						ServerUtils.sendPlayerToServer(player,
+								item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
+					}
 				}
 			}
 		}
