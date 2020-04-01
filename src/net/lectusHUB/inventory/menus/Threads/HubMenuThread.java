@@ -40,7 +40,7 @@ public class HubMenuThread extends Thread {
 							item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
 
 							if (state.equalsIgnoreCase("BOOTING")) {
-								item.setLore(ChatColor.RED + "Ce Hub est en cour de redemarrage!");
+								item.setLore(ChatColor.RED + "Ce Hub est en cour de demarrage!");
 							} else {
 								item.setLore(ChatColor.RED + "Joueurs: "
 										+ MainLectusApi.getInstance().getSql().getPlayers(Integer.parseInt(serv)) + "/20");
