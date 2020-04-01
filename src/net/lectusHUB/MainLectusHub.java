@@ -20,6 +20,7 @@ import net.lectusAPI.utils.TeamUtils;
 import net.lectusAPI.utils.TitleManager;
 import net.lectusHUB.events.EventsManager;
 import net.lectusHUB.inventory.menus.PlayerMenu;
+import net.lectusHUB.inventory.menus.Threads.HubMenuThread;
 import net.lectusHUB.inventory.menus.Threads.StaffMenuThread;
 import net.lectusHUB.scoreboard.ThreadTeamsAndScoreboard;
 import net.lectusHUB.thread.SignThread;
@@ -78,6 +79,9 @@ public class MainLectusHub extends JavaPlugin {
 		
 		StaffMenuThread ThreadStaffMenu = new StaffMenuThread();
 		ThreadStaffMenu.start();
+		
+		HubMenuThread hubmenuthread = new HubMenuThread();
+		hubmenuthread.start();
 		
 		for (World world : Bukkit.getWorlds()) {
 			String name = world.getName();
