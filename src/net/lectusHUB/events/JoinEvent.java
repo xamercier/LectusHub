@@ -60,7 +60,8 @@ public class JoinEvent implements Listener {
 					}
 					p.getInventory().clear();
 					p.getInventory().setItem(0, InventoryManager.getInstance().gamesMenu.getItemStack());
-					p.getInventory().setItem(2, InventoryManager.getInstance().boutiqueMenu.getItemStack());
+					p.getInventory().setItem(2, InventoryManager.getInstance().HubMenu.getItemStack());
+					//p.getInventory().setItem(2, InventoryManager.getInstance().boutiqueMenu.getItemStack());
 					p.getInventory().setItem(4, playerMenu.getRepresenter());
 					if (Rank.BUILDEUR.hasPermission(p)) {
 						p.getInventory().setItem(6, InventoryManager.getInstance().staffMenu.getItemStack());
