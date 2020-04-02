@@ -73,10 +73,11 @@ public class HubMenu extends LectusInventory {
 						return;
 					} else if (MainLectusApi.getInstance().getSql().getPlayers(srvPort) >= 20) {
 						player.sendMessage(ChatColor.RED + "Erreur: Ce Hub est deja plein");
-					} else {
-
+					} else if (!MainLectusApi.getInstance().getSql().getState(srvPort).equalsIgnoreCase("BOOTING")){
 						ServerUtils.sendPlayerToServer(player,
 								item.getItemMeta().getDisplayName().replace(ChatColor.GREEN + "", ""));
+					} else {
+						player.sendMessage(ChatColor.RED + "Erreur: Ce Hub n'est pas disponible pour le moment");
 					}
 				}
 			}
