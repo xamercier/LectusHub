@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import net.lectusAPI.MainLectusApi;
 import net.lectusAPI.GameManager.GameManager;
 import net.lectusAPI.utils.ItemStackUtils;
 import net.lectusAPI.utils.LectusInventory;
@@ -22,8 +23,8 @@ public class MainMenu extends LectusInventory {
 
 	@Override
 	public void buildInventory() {
+		
 		ArrayList<String> lore = new ArrayList<String>();
-
 		lore.clear();
 		LectusItem GlassPanel = new LectusItem(
 				ItemStackUtils.create(Material.STAINED_GLASS_PANE, (byte) 15, 1, "", lore));
@@ -65,14 +66,20 @@ public class MainMenu extends LectusInventory {
 
 		for (GameManager game : games) {
 			LectusItem item = game.getGameItem();
-			item.setLore(game.getItemLore());
+
+			int playersOnline = 0;
+
+			ArrayList<String> serverList = MainLectusApi.getInstance().getSql().getServers(game.getGamePrefix());
+			for (String srv : serverList) {
+				playersOnline = playersOnline + MainLectusApi.getInstance().getSql().getPlayers(Integer.parseInt(srv));
+			}
+			item.setLore(game.getItemLore(), ChatColor.GOLD + "Joueurs en ligne: " + playersOnline);
 			setItem(position, item);
 			position = position + 2;
 		}
 
 		/*
-		 * fuck that hardcoded shit ;) 
-		 * lore.add(ChatColor.GOLD +
+		 * fuck that hardcoded shit ;) lore.add(ChatColor.GOLD +
 		 * "Developpeur: xamercier"); LectusItem HikaBrain1v1 = new
 		 * LectusItem(ItemStackUtils.create(Material.BED, (byte) 0, 1,
 		 * ChatColor.RED + "HikaBrain1v1", lore)); setItem(12, HikaBrain1v1);
@@ -88,13 +95,13 @@ public class MainMenu extends LectusInventory {
 	@Override
 	public void onClick(Player player, ItemStack item) {
 		LectusItem itemL = new LectusItem(item);
-		
-		if(item.getType() == Material.AIR || item.getType() == Material.STAINED_GLASS_PANE) {
+
+		if (item.getType() == Material.AIR || item.getType() == Material.STAINED_GLASS_PANE) {
 			return;
 		}
-		
-		//System.out.println("ITEML NAME BITCHESSSS : " + itemL.getName());
-		
+
+		// System.out.println("ITEML NAME BITCHESSSS : " + itemL.getName());
+
 		ArrayList<GameManager> games = new ArrayList<GameManager>();
 		for (GameManager game : GameManager.values()) {
 			if (game.isAGame()) {
@@ -102,7 +109,7 @@ public class MainMenu extends LectusInventory {
 			}
 		}
 		for (GameManager game : games) {
-			if(itemL.getName().toLowerCase().contains(game.getGamePrefix().toLowerCase())) {
+			if (itemL.getName().toLowerCase().contains(game.getGamePrefix().toLowerCase())) {
 				game.sendPlayerToGame(player);
 				break;
 			} else {

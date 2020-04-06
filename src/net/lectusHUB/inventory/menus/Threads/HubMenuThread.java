@@ -37,8 +37,14 @@ public class HubMenuThread extends Thread {
 						for (String serv : Servers) {
 							LectusItem item = hub.getGameItem();
 							String state = MainLectusApi.getInstance().getSql().getState(Integer.parseInt(serv));
-								item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
-								item.setLore(ChatColor.RED + "Clique pour rejoindre ce Hub!");
+							item.setName(ChatColor.GREEN + hub.getServerPrefix() + serv);
+
+							if (state.equalsIgnoreCase("BOOTING")) {
+								item.setLore(ChatColor.RED + "Ce Hub est en cour de demarrage!");
+							} else {
+								item.setLore(ChatColor.RED + "Joueurs: "
+										+ MainLectusApi.getInstance().getSql().getPlayers(Integer.parseInt(serv)) + "/20");
+							}
 								li.setItem(position, item);
 								position++;
 								settedGames++;
